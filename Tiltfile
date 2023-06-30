@@ -20,6 +20,8 @@ helm_resource(
     resource_deps=['flux-repo', 'flux-ns']
     )
 
+local_resource('monitoring',cmd='kubectl apply -f ./flux/monitoring', resource_deps=['flux2'])
+
 # goldilocks
 helm_repo(
     'fairwinds-stable',
@@ -40,9 +42,9 @@ helm_resource(
     chart='fairwinds-stable/vpa',
     namespace='vpa-system',
     flags=['--create-namespace','--values=./fairwinds/vpa/values.yaml'],
-    resource_deps=['goldilocks-repo']
+    resource_deps=['goldilocks']
 )
 
-k8s_yaml(
-    './fairwinds/vpa/config.yaml'
-    )
+local_resource('vpa-config',cmd='kubectl apply -f ./fairwinds/vpa/config.yaml', resource_deps=['vpa'])
+
+
