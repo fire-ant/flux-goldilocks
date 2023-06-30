@@ -1,0 +1,21 @@
+---
+
+jobs:
+  - name: flux-hr-batches
+    jobIterations: 1000
+    qps: 5
+    burst: 75
+    namespacedIterations: false
+    namespace: flux-system
+    waitWhenFinished: false
+    podWait: false
+    preLoadImages: false
+    objects:
+      - objectTemplate: templates/helmrelease.yml
+        replicas: 1
+  # - name: flux-hr-delete
+  #   jobType: delete
+  #   objects:
+  #     - kind: HelmRelease
+  #       labelSelector: {kube-burner-job: flux-hr-batches}
+  #       apiVersion: helm.toolkit.fluxcd.io/v2beta1
